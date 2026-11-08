@@ -3,81 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Khmer Multi-Voice TTS</title>
+  <title>Khmer TTS Voice</title>
   <style>
-    * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
-    body { background-color: #0b0f19; color: #f1f5f9; padding: 16px; display: flex; justify-content: center; }
-    .card { background: #1e293b; max-width: 460px; width: 100%; padding: 22px; border-radius: 16px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-    h2 { text-align: center; color: #38bdf8; margin: 0 0 16px 0; font-size: 20px; }
-    label { font-size: 13px; color: #94a3b8; font-weight: 600; display: block; margin-top: 14px; margin-bottom: 6px; }
-    textarea { width: 100%; height: 110px; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #fff; font-size: 15px; resize: none; }
-    select, input[type="range"] { width: 100%; accent-color: #38bdf8; }
-    select { padding: 10px; border: 1px solid #334155; border-radius: 8px; background: #0f172a; color: #fff; font-size: 14px; }
-    button { width: 100%; padding: 14px; margin-top: 18px; border: none; border-radius: 8px; background: #2563eb; color: white; font-size: 16px; font-weight: bold; cursor: pointer; }
-    button:disabled { background: #475569; }
-    audio { width: 100%; margin-top: 16px; display: block; }
-    .info { font-size: 13px; color: #38bdf8; text-align: center; margin-top: 12px; }
+    * { box-sizing: border-box; font-family: system-ui, sans-serif; }
+    body { background-color: #0b0f19; color: #fff; padding: 20px; display: flex; justify-content: center; }
+    .card { background: #1e293b; max-width: 450px; width: 100%; padding: 20px; border-radius: 12px; }
+    textarea { width: 100%; height: 100px; padding: 10px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: #fff; font-size: 16px; margin-bottom: 15px; }
+    select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: #fff; font-size: 15px; margin-bottom: 15px; }
+    button { width: 100%; padding: 12px; background: #2563eb; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; }
+    audio { width: 100%; margin-top: 20px; display: block; }
+    p { text-align: center; color: #38bdf8; font-size: 14px; margin-top: 10px; }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <h2>🇰🇭 ប្រព័ន្ធបង្កើតសំឡេងខ្មែរ</h2>
+    <h3 style="text-align:center; margin-top:0;">🇰🇭 បង្កើតសំឡេងខ្មែរ AI</h3>
+    <textarea id="my-text">សួស្តីបងប្អូនទាំងអស់គ្នា</textarea>
     
-    <label>បញ្ចូលអត្ថបទខ្មែរ៖</label>
-    <textarea id="text-input" placeholder="វាយអត្ថបទខ្មែរទីនេះ...">សួស្តីបងប្អូនទាំងអស់គ្នា</textarea>
-
-    <!-- ជ្រើសរើស Style សំឡេង -->
-    <label>ជ្រើសរើសទម្រង់សំឡេង (Style)៖</label>
-    <select id="style-select">
-      <option value="1">👩 សំឡេងស្រី - ធម្មតា (Normal)</option>
-      <option value="0.8">📖 សំឡេងអានរឿង - មួយៗរំសាយចិត្ត (Slow)</option>
-      <option value="1.25">📰 សំឡេងអានព័ត៌មាន - រហ័សទាន់ចិត្ត (Fast)</option>
-      <option value="1.5">🧒 សំឡេងកំប្លែង/ក្មេង - លឿនញាប់ (Very Fast)</option>
+    <select id="speed-val">
+      <option value="1">សំឡេងធម្មតា (1x)</option>
+      <option value="0.85">សំឡេងយឺត/រំសាយអារម្មណ៍ (0.85x)</option>
+      <option value="1.2">សំឡេងលឿន/ព័ត៌មាន (1.2x)</option>
     </select>
 
-    <button id="play-btn">🔊 បង្កើត និងចាក់សំឡេង</button>
-    <p class="info" id="status-msg">ចុចប៊ូតុងដើម្បីចាក់សំឡេង</p>
-    
-    <!-- Audio Player សម្រាប់ចាក់ផ្ទាល់លើទូរស័ព្ទ -->
-    <audio id="audio-player" controls playsinline></audio>
+    <button id="btn-play">🔊 បង្កើតសំឡេង</button>
+    <p id="msg">ចុចប៊ូតុងដើម្បីទាញយកសំឡេង</p>
+
+    <!-- កន្លែងចាក់សំឡេងដែល iPhone អាចលេងបានផ្ទាល់ -->
+    <audio id="player" controls playsinline></audio>
   </div>
 
   <script>
-    const textInput = document.getElementById('text-input');
-    const styleSelect = document.getElementById('style-select');
-    const playBtn = document.getElementById('play-btn');
-    const audioPlayer = document.getElementById('audio-player');
-    const statusMsg = document.getElementById('status-msg');
+    const btn = document.getElementById('btn-play');
+    const player = document.getElementById('player');
+    const msg = document.getElementById('msg');
 
-    playBtn.onclick = function() {
-      const text = textInput.value.trim();
-      if (!text) {
-        alert('សូមបញ្ចូលអត្ថបទជាមុនសិន!');
-        return;
-      }
-
-      statusMsg.innerText = 'កំពុងទាញយកសំឡេងខ្មែរ...';
-      playBtn.disabled = true;
-
-      // ប្រើប្រាស់សេវាសំឡេងខ្មែរផ្ទាល់ (ដំណើរការលើគ្រប់ទូរស័ព្ទ)
-      const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=km&client=tw-ob&q=${encodeURIComponent(text)}`;
+    btn.onclick = function() {
+      const text = document.getElementById('my-text').value.trim();
+      const speed = document.getElementById('speed-val').value;
       
-      audioPlayer.src = ttsUrl;
-      audioPlayer.playbackRate = parseFloat(styleSelect.value);
-
-      audioPlayer.play().then(() => {
-        statusMsg.innerText = 'កំពុងចាក់សំឡេង...';
-      }).catch((err) => {
-        statusMsg.innerText = 'សូមចុចប៊ូតុង Play (▶) លើ Audio Bar ខាងក្រោមដើម្បីស្ដាប់';
+      if (!text) return alert('សូមវាយអត្ថបទ!');
+      
+      msg.innerText = 'កំពុងចាក់សំឡេង...';
+      const audioUrl = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=km&client=tw-ob&q=' + encodeURIComponent(text);
+      
+      player.src = audioUrl;
+      player.playbackRate = parseFloat(speed);
+      
+      player.play().catch(function() {
+        msg.innerText = 'សូមចុចប៊ូតុង Play (▶) ខាងក្រោមដើម្បីស្ដាប់';
       });
-
-      audioPlayer.onended = () => {
-        statusMsg.innerText = 'បានចាក់ចប់រួចរាល់!';
-        playBtn.disabled = false;
-      };
-
-      playBtn.disabled = false;
     };
   </script>
 </body>
