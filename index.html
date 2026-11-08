@@ -13,127 +13,72 @@
     textarea { width: 100%; height: 110px; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #fff; font-size: 15px; resize: none; }
     select, input[type="range"] { width: 100%; accent-color: #38bdf8; }
     select { padding: 10px; border: 1px solid #334155; border-radius: 8px; background: #0f172a; color: #fff; font-size: 14px; }
-    .control-row { display: flex; justify-content: space-between; font-size: 12px; color: #38bdf8; margin-top: 4px; }
     button { width: 100%; padding: 14px; margin-top: 18px; border: none; border-radius: 8px; background: #2563eb; color: white; font-size: 16px; font-weight: bold; cursor: pointer; }
     button:disabled { background: #475569; }
-    audio { width: 100%; margin-top: 16px; display: none; }
-    .info { font-size: 12px; color: #64748b; text-align: center; margin-top: 10px; }
+    audio { width: 100%; margin-top: 16px; display: block; }
+    .info { font-size: 13px; color: #38bdf8; text-align: center; margin-top: 12px; }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <h2>🇰🇭 ប្រព័ន្ធបង្កើតសំឡេងខ្មែរច្រើនបែប</h2>
+    <h2>🇰🇭 ប្រព័ន្ធបង្កើតសំឡេងខ្មែរ</h2>
     
     <label>បញ្ចូលអត្ថបទខ្មែរ៖</label>
-    <textarea id="text-input" placeholder="វាយអត្ថបទខ្មែរទីនេះ..."></textarea>
+    <textarea id="text-input" placeholder="វាយអត្ថបទខ្មែរទីនេះ...">សួស្តីបងប្អូនទាំងអស់គ្នា</textarea>
 
-    <!-- បញ្ជីសំឡេងខ្មែរច្រើន Characters -->
-    <label>ជ្រើសរើសតួអង្គសំឡេង (Characters)៖</label>
-    <select id="preset-select">
-      <option value="female-norm" data-voice="km-KH-PiseyNeural" data-rate="1" data-pitch="1">👩 សំឡេងស្រី - ពីសី (ធម្មតា/ផ្អែម)</option>
-      <option value="female-story" data-voice="km-KH-PiseyNeural" data-rate="0.9" data-pitch="0.95">📖 សំឡេងស្រី - អានរឿង/សម្រាយរឿង (រំសាយចិត្ត)</option>
-      <option value="male-norm" data-voice="km-KH-DaNeural" data-rate="1" data-pitch="1">👨 សំឡេងប្រុស - ដារ៉ា (ច្បាស់/ធម្មតា)</option>
-      <option value="male-news" data-voice="km-KH-DaNeural" data-rate="1.1" data-pitch="0.9">📰 សំឡេងប្រុស - អានព័ត៌មាន (ម៉ឺងម៉ាត់/មានអំណាច)</option>
-      <option value="kid-cute" data-voice="km-KH-PiseyNeural" data-rate="1.15" data-pitch="1.4">🧒 សំឡេងក្មេង - ស្រួយតូច (គំនូរជីវចល/កំប្លែង)</option>
-      <option value="old-man" data-voice="km-KH-DaNeural" data-rate="0.8" data-pitch="0.7">👴 សំឡេងលោកតា/មនុស្សចាស់ (គ្រលរធ្ងន់/យឺត)</option>
-      <option value="custom" data-voice="custom" data-rate="1" data-pitch="1">⚙️ កំណត់ Style ដោយខ្លួនឯង (Custom)</option>
+    <!-- ជ្រើសរើស Style សំឡេង -->
+    <label>ជ្រើសរើសទម្រង់សំឡេង (Style)៖</label>
+    <select id="style-select">
+      <option value="1">👩 សំឡេងស្រី - ធម្មតា (Normal)</option>
+      <option value="0.8">📖 សំឡេងអានរឿង - មួយៗរំសាយចិត្ត (Slow)</option>
+      <option value="1.25">📰 សំឡេងអានព័ត៌មាន - រហ័សទាន់ចិត្ត (Fast)</option>
+      <option value="1.5">🧒 សំឡេងកំប្លែង/ក្មេង - លឿនញាប់ (Very Fast)</option>
     </select>
 
-    <!-- កំណត់ល្បឿន -->
-    <label>ល្បឿន (Speed): <span id="rate-val" style="float:right; color:#38bdf8;">1x</span></label>
-    <input type="range" id="rate-range" min="0.5" max="2" value="1" step="0.05">
-
-    <!-- កំណត់កម្រិតសំនៀង គ្រលរ/ស្រួច -->
-    <label>កម្រិតសំនៀង (Pitch / គ្រលរ-ស្រួច): <span id="pitch-val" style="float:right; color:#38bdf8;">1x</span></label>
-    <input type="range" id="pitch-range" min="0.5" max="1.6" value="1" step="0.05">
-
-    <button id="play-btn">🔊 បញ្ចេញសំឡេង</button>
-    <p class="info" id="status-msg">ជ្រើសរើសសំឡេង រួចចុចបញ្ចេញសំឡេង</p>
-    <audio id="audio-out" controls></audio>
+    <button id="play-btn">🔊 បង្កើត និងចាក់សំឡេង</button>
+    <p class="info" id="status-msg">ចុចប៊ូតុងដើម្បីចាក់សំឡេង</p>
+    
+    <!-- Audio Player សម្រាប់ចាក់ផ្ទាល់លើទូរស័ព្ទ -->
+    <audio id="audio-player" controls playsinline></audio>
   </div>
 
   <script>
     const textInput = document.getElementById('text-input');
-    const presetSelect = document.getElementById('preset-select');
-    const rateRange = document.getElementById('rate-range');
-    const pitchRange = document.getElementById('pitch-range');
-    const rateVal = document.getElementById('rate-val');
-    const pitchVal = document.getElementById('pitch-val');
+    const styleSelect = document.getElementById('style-select');
     const playBtn = document.getElementById('play-btn');
-    const audioOut = document.getElementById('audio-out');
+    const audioPlayer = document.getElementById('audio-player');
     const statusMsg = document.getElementById('status-msg');
 
-    // ពេលជ្រើសរើស Preset ប្តូរ Slider ស្វ័យប្រវត្តិ
-    presetSelect.onchange = () => {
-      const opt = presetSelect.selectedOptions[0];
-      if (opt.value !== 'custom') {
-        rateRange.value = opt.getAttribute('data-rate');
-        pitchRange.value = opt.getAttribute('data-pitch');
-        rateVal.innerText = rateRange.value + 'x';
-        pitchVal.innerText = pitchRange.value + 'x';
-      }
-    };
-
-    rateRange.oninput = () => {
-      rateVal.innerText = rateRange.value + 'x';
-      presetSelect.value = 'custom';
-    };
-
-    pitchRange.oninput = () => {
-      pitchVal.innerText = pitchRange.value + 'x';
-      presetSelect.value = 'custom';
-    };
-
-    playBtn.onclick = () => {
+    playBtn.onclick = function() {
       const text = textInput.value.trim();
       if (!text) {
         alert('សូមបញ្ចូលអត្ថបទជាមុនសិន!');
         return;
       }
 
-      // ប្រសិនបើ browser គាំទ្រ Web Speech Synthesis
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
+      statusMsg.innerText = 'កំពុងទាញយកសំឡេងខ្មែរ...';
+      playBtn.disabled = true;
 
-        const utter = new SpeechSynthesisUtterance(text);
-        utter.rate = parseFloat(rateRange.value);
-        utter.pitch = parseFloat(pitchRange.value);
-        utter.lang = 'km-KH';
+      // ប្រើប្រាស់សេវាសំឡេងខ្មែរផ្ទាល់ (ដំណើរការលើគ្រប់ទូរស័ព្ទ)
+      const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=km&client=tw-ob&q=${encodeURIComponent(text)}`;
+      
+      audioPlayer.src = ttsUrl;
+      audioPlayer.playbackRate = parseFloat(styleSelect.value);
 
-        // ស្វែងរកសំឡេងខ្មែរក្នុងឧបករណ៍
-        const voices = window.speechSynthesis.getVoices();
-        const khVoice = voices.find(v => v.lang.includes('km') || v.lang.includes('Khm'));
-        if (khVoice) utter.voice = khVoice;
+      audioPlayer.play().then(() => {
+        statusMsg.innerText = 'កំពុងចាក់សំឡេង...';
+      }).catch((err) => {
+        statusMsg.innerText = 'សូមចុចប៊ូតុង Play (▶) លើ Audio Bar ខាងក្រោមដើម្បីស្ដាប់';
+      });
 
-        utter.onstart = () => {
-          statusMsg.innerText = 'កំពុងអានសំឡេង...';
-          playBtn.disabled = true;
-        };
-        utter.onend = () => {
-          statusMsg.innerText = 'អានចប់រួចរាល់!';
-          playBtn.disabled = false;
-        };
-        utter.onerror = () => {
-          fallbackAudio(text);
-        };
+      audioPlayer.onended = () => {
+        statusMsg.innerText = 'បានចាក់ចប់រួចរាល់!';
+        playBtn.disabled = false;
+      };
 
-        window.speechSynthesis.speak(utter);
-      } else {
-        fallbackAudio(text);
-      }
-    };
-
-    // ជម្រើសជំនួសបើទូរស័ព្ទមិនគាំទ្រ
-    function fallbackAudio(text) {
-      statusMsg.innerText = 'កំពុងទាញយកសំឡេងពី Server...';
-      const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=km&client=tw-ob&q=${encodeURIComponent(text)}`;
-      audioOut.src = url;
-      audioOut.playbackRate = parseFloat(rateRange.value);
-      audioOut.style.display = 'block';
-      audioOut.play();
       playBtn.disabled = false;
-    }
+    };
   </script>
 </body>
 </html>
