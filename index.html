@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Khmer Text to Speech</title>
+  <style>
+    * { box-sizing: border-box; font-family: system-ui, sans-serif; }
+    body { background-color: #f3f4f6; padding: 20px; display: flex; justify-content: center; }
+    .card { background: white; max-width: 480px; width: 100%; padding: 24px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    h2 { text-align: center; color: #1f2937; margin-top: 0; }
+    textarea { width: 100%; height: 140px; padding: 12px; border: 1px solid #d1d5db; border-radius: 8px; resize: none; font-size: 16px; margin-bottom: 16px; }
+    label { font-size: 14px; color: #4b5563; font-weight: 600; display: block; margin-bottom: 6px; }
+    select, input[type="range"] { width: 100%; margin-bottom: 16px; }
+    select { padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; background: white; font-size: 15px; }
+    .buttons { display: flex; gap: 10px; }
+    button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+    .btn-speak { background: #2563eb; color: white; }
+    .btn-stop { background: #ef4444; color: white; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>Text to Speech</h2>
+    
+    <label for="text-input">បញ្ចូលអត្ថបទទីនេះ៖</label>
+    <textarea id="text-input" placeholder="វាយ ឬបិទភ្ជាប់អត្ថបទនៅទីនេះ..."></textarea>
+
+    <label for="voice-select">ជ្រើសរើសសំឡេង/ភាសា៖</label>
+    <select id="voice-select"></select>
+
+    <label for="rate">ល្បឿននិយាយ៖</label>
+    <input type="range" id="rate" min="0.5" max="2" value="1" step="0.1">
+
+    <div class="buttons">
+      <button class="btn-speak" id="speak-btn">🔊 អានសំឡេង</button>
+      <button class="btn-stop" id="stop-btn">⏹️ បញ្ឈប់</button>
+    </div>
+  </div>
+
+  <script>
+    const synth = window.speechSynthesis;
+    const textInput = document.getElementById('text-input');
+    const voiceSelect = document.getElementById('voice-select');
+    const rate = document.getElementById('rate');
+    const speakBtn = document.getElementById('speak-btn');
+    const stopBtn = document.getElementById('stop-btn');
+
+    let voices = [];
+
+    function populateVoices() {
+      voices = synth.getVoices();
+      voiceSelect.innerHTML = '';
+      
+      voices.forEach((voice, index) => {
+        const option = document.createElement('option');
+        option.textContent = `${voice.name} (${voice.lang})`;
+        option.setAttribute('value', index);
+        voiceSelect.appendChild(option);
+      });
+    }
+
+    populateVoices();
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = populateVoices;
+    }
+
+    speakBtn.addEventListener('click', () => {
+      if (synth.speaking) {
+        synth.cancel();
+      }
+      if (textInput.value.trim() !== '') {
+        const utterText = new SpeechSynthesisUtterance(textInput.value);
+        if (voices.length > 0) {
+          utterText.voice = voices[voiceSelect.value];
+        }
+        utterText.rate = parseFloat(rate.value);
+        synth.speak(utterText);
+      }
+    });
+
+    stopBtn.addEventListener('click', () => {
+      synth.cancel();
+    });
+  </script>
+</body>
+</html>
