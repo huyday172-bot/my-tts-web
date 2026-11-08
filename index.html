@@ -3,57 +3,89 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Khmer TTS Voice</title>
+  <title>Khmer AI TTS</title>
   <style>
-    * { box-sizing: border-box; font-family: system-ui, sans-serif; }
-    body { background-color: #0b0f19; color: #fff; padding: 20px; display: flex; justify-content: center; }
-    .card { background: #1e293b; max-width: 450px; width: 100%; padding: 20px; border-radius: 12px; }
-    textarea { width: 100%; height: 100px; padding: 10px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: #fff; font-size: 16px; margin-bottom: 15px; }
-    select { width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: #fff; font-size: 15px; margin-bottom: 15px; }
-    button { width: 100%; padding: 12px; background: #2563eb; color: #fff; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; }
-    audio { width: 100%; margin-top: 20px; display: block; }
-    p { text-align: center; color: #38bdf8; font-size: 14px; margin-top: 10px; }
+    * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
+    body { background-color: #0b0f19; color: #f1f5f9; padding: 16px; display: flex; justify-content: center; }
+    .card { background: #1e293b; max-width: 450px; width: 100%; padding: 22px; border-radius: 16px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
+    h2 { text-align: center; color: #38bdf8; margin: 0 0 16px 0; font-size: 20px; }
+    label { font-size: 13px; color: #94a3b8; font-weight: 600; display: block; margin-top: 14px; margin-bottom: 6px; }
+    textarea { width: 100%; height: 110px; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #fff; font-size: 15px; resize: none; }
+    select { width: 100%; padding: 10px; border: 1px solid #334155; border-radius: 8px; background: #0f172a; color: #fff; font-size: 14px; }
+    button { width: 100%; padding: 14px; margin-top: 18px; border: none; border-radius: 8px; background: #2563eb; color: white; font-size: 16px; font-weight: bold; cursor: pointer; }
+    button:disabled { background: #475569; }
+    audio { width: 100%; margin-top: 18px; display: block; }
+    .info { font-size: 13px; color: #38bdf8; text-align: center; margin-top: 10px; }
   </style>
 </head>
 <body>
 
   <div class="card">
-    <h3 style="text-align:center; margin-top:0;">🇰🇭 បង្កើតសំឡេងខ្មែរ AI</h3>
-    <textarea id="my-text">សួស្តីបងប្អូនទាំងអស់គ្នា</textarea>
-    
-    <select id="speed-val">
-      <option value="1">សំឡេងធម្មតា (1x)</option>
-      <option value="0.85">សំឡេងយឺត/រំសាយអារម្មណ៍ (0.85x)</option>
-      <option value="1.2">សំឡេងលឿន/ព័ត៌មាន (1.2x)</option>
+    <h2>🇰🇭 Khmer AI TTS (LynxTTS)</h2>
+
+    <label>បញ្ចូលអត្ថបទខ្មែរ៖</label>
+    <textarea id="tts-text">សួស្តីបងប្អូនទាំងអស់គ្នា ខ្ញុំជាសំឡេងបញ្ញាសិប្បនិម្មិត AI</textarea>
+
+    <!-- ជ្រើសរើសសំឡេង AI ខ្មែរ -->
+    <label>ជ្រើសរើសសំឡេង (Voices)៖</label>
+    <select id="voice-name">
+      <option value="km-KH-PiseyNeural">👩 សំឡេងស្រី - ពីសី (Pisey - ផ្អែមរលូន)</option>
+      <option value="km-KH-DaNeural">👨 សំឡេងប្រុស - ដារ៉ា (Da - ច្បាស់ម៉ឺងម៉ាត់)</option>
     </select>
 
-    <button id="btn-play">🔊 បង្កើតសំឡេង</button>
-    <p id="msg">ចុចប៊ូតុងដើម្បីទាញយកសំឡេង</p>
+    <!-- ជ្រើសរើស Style ល្បឿន -->
+    <label>ល្បឿននិយាយ (Speed)៖</label>
+    <select id="tts-speed">
+      <option value="1">ធម្មតា (Normal - 1x)</option>
+      <option value="0.85">មួយៗ រំសាយចិត្ត (Slow - 0.85x)</option>
+      <option value="1.2">លឿនបែបព័ត៌មាន (Fast - 1.2x)</option>
+    </select>
 
-    <!-- កន្លែងចាក់សំឡេងដែល iPhone អាចលេងបានផ្ទាល់ -->
-    <audio id="player" controls playsinline></audio>
+    <button id="btn-create">🔊 បង្កើត និងចាក់សំឡេង AI</button>
+    <p class="info" id="status-text">សូមចុចប៊ូតុងដើម្បីបង្កើតសំឡេង</p>
+
+    <!-- កន្លែងចាក់សំឡេង -->
+    <audio id="audio-box" controls playsinline></audio>
   </div>
 
   <script>
-    const btn = document.getElementById('btn-play');
-    const player = document.getElementById('player');
-    const msg = document.getElementById('msg');
+    const btnCreate = document.getElementById('btn-create');
+    const ttsText = document.getElementById('tts-text');
+    const voiceName = document.getElementById('voice-name');
+    const ttsSpeed = document.getElementById('tts-speed');
+    const audioBox = document.getElementById('audio-box');
+    const statusText = document.getElementById('status-text');
 
-    btn.onclick = function() {
-      const text = document.getElementById('my-text').value.trim();
-      const speed = document.getElementById('speed-val').value;
-      
-      if (!text) return alert('សូមវាយអត្ថបទ!');
-      
-      msg.innerText = 'កំពុងចាក់សំឡេង...';
-      const audioUrl = 'https://translate.google.com/translate_tts?ie=UTF-8&tl=km&client=tw-ob&q=' + encodeURIComponent(text);
-      
-      player.src = audioUrl;
-      player.playbackRate = parseFloat(speed);
-      
-      player.play().catch(function() {
-        msg.innerText = 'សូមចុចប៊ូតុង Play (▶) ខាងក្រោមដើម្បីស្ដាប់';
+    btnCreate.onclick = function() {
+      const text = ttsText.value.trim();
+      if (!text) {
+        alert('សូមបញ្ចូលអត្ថបទជាមុនសិន!');
+        return;
+      }
+
+      btnCreate.disabled = true;
+      statusText.innerText = 'កំពុងទាញយកសំឡេង AI សូមរង់ចាំ...';
+
+      // ប្រើ API សំឡេងខ្មែរផ្ទាល់ ដែលមិនជាប់ Error CORS
+      const soundUrl = `https://api.streamelements.com/kappa/v2/speech?voice=${voiceName.value}&text=${encodeURIComponent(text)}`;
+
+      audioBox.src = soundUrl;
+      audioBox.playbackRate = parseFloat(ttsSpeed.value);
+
+      // បញ្ជាឱ្យ Play ពេលទាញយកបាន
+      audioBox.load();
+      audioBox.play().then(() => {
+        statusText.innerText = 'កំពុងចាក់សំឡេង...';
+      }).catch((e) => {
+        statusText.innerText = 'សំឡេងបង្កើតរួចហើយ! សូមចុចសញ្ញា Play (▶) ខាងក្រោម';
       });
+
+      audioBox.onended = () => {
+        statusText.innerText = 'ចាក់ចប់រួចរាល់!';
+        btnCreate.disabled = false;
+      };
+
+      btnCreate.disabled = false;
     };
   </script>
 </body>
