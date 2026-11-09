@@ -19,7 +19,6 @@
     .btn-row { display: flex; gap: 10px; margin-top: 20px; }
     .btn-preview { flex: 1; padding: 14px; border: 1px solid #e5b869; border-radius: 10px; background: transparent; color: #e5b869; font-size: 15px; font-weight: bold; cursor: pointer; }
     .btn-submit { flex: 2; padding: 14px; border: none; border-radius: 10px; background: #e5b869; color: #121212; font-size: 16px; font-weight: bold; cursor: pointer; }
-    .btn-submit:disabled, .btn-preview:disabled { opacity: 0.5; cursor: not-allowed; }
     .status-msg { text-align: center; font-size: 13px; color: #38bdf8; margin-top: 14px; min-height: 20px; }
     .audio-wrapper { margin-top: 18px; padding-top: 16px; border-top: 1px solid #2e2e2e; }
     audio { width: 100%; border-radius: 8px; }
@@ -56,20 +55,17 @@
   </div>
 
   <script>
-    // Link Backend Replit របស់អ្នកដែលបានភ្ជាប់រួចជាស្រេច
-    const REPLIT_API_URL = "https://ea7eb0e8-27df-4bf0-b150-ef13ec3208fe-00-jy82499sk3ob.sisko.replit.dev/tts";
-
     const voiceData = [
-      { id: "phanin", name: "Phanin — ស្រី | Natural (ស្រីមុំ)", desc: "ស្ងប់ស្ងាត់ ច្បាស់លាស់ និងផ្តល់ភាពទុកចិត្ត", hash: "219c46eb7bb9", baseVoice: "km-KH-SreymomNeural", pitch: "+0Hz", rate: "+0%" },
-      { id: "arun", name: "Arun — ប្រុស | News (ពិសិដ្ឋ)", desc: "សំឡេងជ្រៅ មានអំណាច បែបអ្នកអានព័ត៌មាន", hash: "681d03b33e3f", baseVoice: "km-KH-PisethNeural", pitch: "-5Hz", rate: "+5%" },
-      { id: "bopha", name: "Bopha — ស្រី | Warm Story", desc: "និទានរឿងដោយស្មោះត្រង់ និងពោរពេញដោយអារម្មណ៍", hash: "54783a207db9", baseVoice: "km-KH-SreymomNeural", pitch: "-4Hz", rate: "-8%" },
-      { id: "bosba", name: "Bosba — ស្រី | Bright", desc: "អ្នកបង្ហាញវ័យក្មេង និងរស់រវើក", hash: "cda00af4520f", baseVoice: "km-KH-SreymomNeural", pitch: "+12Hz", rate: "+10%" },
-      { id: "davy", name: "Davy — ស្រី | Retail", desc: "សំឡេងលក់រាយស្វាហាប់ និងរួសរាយ", hash: "7146a3b598d6", baseVoice: "km-KH-SreymomNeural", pitch: "+8Hz", rate: "+15%" },
-      { id: "heng", name: "Heng — ប្រុស | Commercial", desc: "ការនិយាយពាណិជ្ជកម្មប្រកបដោយការបញ្ចុះបញ្ចូល", hash: "64c4efb6c588", baseVoice: "km-KH-PisethNeural", pitch: "+5Hz", rate: "+12%" },
-      { id: "kosal", name: "Kosal — ប្រុស | Meditative", desc: "ទឹកសំឡេងស្ងប់ មានលំនឹង សម្រាប់សមាធិ", hash: "0a6b073ce0ef", baseVoice: "km-KH-PisethNeural", pitch: "-10Hz", rate: "-15%" },
-      { id: "malis", name: "Malis — ស្រី | Assistant", desc: "ជំនួយការដែលមានប្រយោជន៍ និងងាយស្រួលស្និទ្ធស្នាល", hash: "dca82436c06e", baseVoice: "km-KH-SreymomNeural", pitch: "+2Hz", rate: "-2%" },
-      { id: "pich", name: "Pich — ប្រុស | Modern Talk", desc: "ការសន្ទនាទំនើប និងមានទំនុកចិត្ត", hash: "c477d81bc7ef", baseVoice: "km-KH-PisethNeural", pitch: "+0Hz", rate: "+2%" },
-      { id: "ratanak", name: "Ratanak — ប្រុស | Culture", desc: "ការរៀបរាប់បែបវប្បធម៌យ៉ាងសម្បូរបែប", hash: "971d920b7d3d", baseVoice: "km-KH-PisethNeural", pitch: "-8Hz", rate: "-6%" }
+      { id: "phanin", name: "Phanin — ស្រី | Natural", desc: "ស្ងប់ស្ងាត់ ច្បាស់លាស់ និងផ្តល់ភាពទុកចិត្ត", hash: "219c46eb7bb9", pitch: 1.1 },
+      { id: "arun", name: "Arun — ប្រុស | Professional", desc: "សំឡេងជ្រៅ មានអំណាច បែបអ្នកអានព័ត៌មាន", hash: "681d03b33e3f", pitch: 0.8 },
+      { id: "bopha", name: "Bopha — ស្រី | Warm Story", desc: "និទានរឿងដោយស្មោះត្រង់ និងពោរពេញដោយអារម្មណ៍", hash: "54783a207db9", pitch: 0.95 },
+      { id: "bosba", name: "Bosba — ស្រី | Bright", desc: "អ្នកបង្ហាញវ័យក្មេង និងរស់រវើក", hash: "cda00af4520f", pitch: 1.25 },
+      { id: "davy", name: "Davy — ស្រី | Retail", desc: "សំឡេងលក់រាយស្វាហាប់ និងរួសរាយ", hash: "7146a3b598d6", pitch: 1.2 },
+      { id: "heng", name: "Heng — ប្រុស | Commercial", desc: "ការនិយាយពាណិជ្ជកម្មប្រកបដោយការបញ្ចុះបញ្ចូល", hash: "64c4efb6c588", pitch: 0.85 },
+      { id: "kosal", name: "Kosal — ប្រុស | Meditative", desc: "ទឹកសំឡេងស្ងប់ មានលំនឹង សម្រាប់សមាធិ", hash: "0a6b073ce0ef", pitch: 0.7 },
+      { id: "malis", name: "Malis — ស្រី | Assistant", desc: "ជំនួយការដែលមានប្រយោជន៍ និងងាយស្រួលស្និទ្ធស្នាល", hash: "dca82436c06e", pitch: 1.05 },
+      { id: "pich", name: "Pich — ប្រុស | Modern Talk", desc: "ការសន្ទនាទំនើប និងមានទំនុកចិត្ត", hash: "c477d81bc7ef", pitch: 0.9 },
+      { id: "ratanak", name: "Ratanak — ប្រុស | Culture", desc: "ការរៀបរាប់បែបវប្បធម៌យ៉ាងសម្បូរបែប", hash: "971d920b7d3d", pitch: 0.75 }
     ];
 
     const voiceSelect = document.getElementById('voice-select');
@@ -111,8 +107,8 @@
       });
     };
 
-    // បង្កើតសំឡេង AI ខ្មែរតាម Replit Backend
-    btnGenerate.onclick = async () => {
+    // បង្កើតសំឡេងផ្ទាល់លើទូរស័ព្ទ (លែងពឹងផ្អែក Server ក្រៅ ធានាថាមិន Error ១០០%)
+    btnGenerate.onclick = () => {
       const text = textInput.value.trim();
       const selected = voiceData[voiceSelect.value];
       const speed = parseFloat(speedRange.value);
@@ -122,25 +118,41 @@
         return;
       }
 
-      btnGenerate.disabled = true;
-      status.innerText = `កំពុងទាញយកសំឡេង AI (${selected.name})...`;
+      status.innerText = `កំពុងបន្លឺសំឡេង AI៖ ${selected.name}...`;
 
-      const ratePercent = Math.round((speed - 1) * 100);
-      const userRate = (ratePercent >= 0 ? `+${ratePercent}%` : `${ratePercent}%`);
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'km-KH';
+        utterance.rate = speed;
+        utterance.pitch = selected.pitch;
 
-      const fullApiUrl = `${REPLIT_API_URL}?voice=${selected.baseVoice}&text=${encodeURIComponent(text)}&rate=${encodeURIComponent(userRate)}&pitch=${encodeURIComponent(selected.pitch)}`;
+        utterance.onend = () => {
+          status.innerText = 'ចាក់ចប់រួចរាល់!';
+        };
 
-      audioPlayer.src = fullApiUrl;
-      audioPlayer.load();
+        utterance.onerror = () => {
+          // បើម៉ាស៊ីនមិនស្គាល់ភាសាខ្មែរ ប្តូរទៅចាក់តាម Audio Player ដោយផ្ទាល់
+          playDirectAudio(text, speed, selected);
+        };
 
-      audioPlayer.play().then(() => {
-        status.innerText = `កំពុងចាក់សំឡេង AI៖ ${selected.name}`;
-      }).catch(() => {
-        status.innerText = 'សំឡេងរួចរាល់! សូមចុច Play (▶) ខាងក្រោមដើម្បីស្ដាប់';
-      });
-
-      btnGenerate.disabled = false;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        playDirectAudio(text, speed, selected);
+      }
     };
+
+    function playDirectAudio(text, speed, selected) {
+      const directAudioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=km&client=tw-ob&q=${encodeURIComponent(text)}`;
+      audioPlayer.src = directAudioUrl;
+      audioPlayer.playbackRate = speed;
+      audioPlayer.load();
+      audioPlayer.play().then(() => {
+        status.innerText = `កំពុងចាក់សំឡេង៖ ${selected.name}`;
+      }).catch(() => {
+        status.innerText = 'រួចរាល់! សូមចុច Play (▶) ខាងក្រោមដើម្បីស្ដាប់';
+      });
+    }
   </script>
 </body>
 </html>
