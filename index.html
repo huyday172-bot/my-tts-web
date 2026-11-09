@@ -1,92 +1,116 @@
+
 <!DOCTYPE html>
 <html lang="km">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Khmer AI TTS</title>
-  <style>
-    * { box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; }
-    body { background-color: #0b0f19; color: #f1f5f9; padding: 16px; display: flex; justify-content: center; }
-    .card { background: #1e293b; max-width: 450px; width: 100%; padding: 22px; border-radius: 16px; border: 1px solid #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.4); }
-    h2 { text-align: center; color: #38bdf8; margin: 0 0 16px 0; font-size: 20px; }
-    label { font-size: 13px; color: #94a3b8; font-weight: 600; display: block; margin-top: 14px; margin-bottom: 6px; }
-    textarea { width: 100%; height: 110px; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #fff; font-size: 15px; resize: none; }
-    select { width: 100%; padding: 10px; border: 1px solid #334155; border-radius: 8px; background: #0f172a; color: #fff; font-size: 14px; }
-    button { width: 100%; padding: 14px; margin-top: 18px; border: none; border-radius: 8px; background: #2563eb; color: white; font-size: 16px; font-weight: bold; cursor: pointer; }
-    button:disabled { background: #475569; }
-    audio { width: 100%; margin-top: 18px; display: block; }
-    .info { font-size: 13px; color: #38bdf8; text-align: center; margin-top: 10px; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PHEA VOICE AI</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;padding:20px;
+ background:#101010;color:white;
+ font-family:Arial,sans-serif;
+}
+.container{max-width:500px;margin:auto}
+header{text-align:center;padding:25px 10px}
+h1{color:#e6bd55;margin:0;font-size:28px}
+header p{color:#aaa}
+.panel{
+ background:#1d1d1d;padding:18px;
+ border:1px solid #6e5725;
+ border-radius:15px;margin-bottom:15px;
+}
+label{display:block;margin:13px 0 7px;color:#e6bd55}
+select,textarea,input{
+ width:100%;padding:13px;border-radius:9px;
+ border:1px solid #555;background:#292929;
+ color:white;font-size:16px;
+}
+textarea{height:150px;resize:vertical}
+button{
+ width:100%;padding:14px;margin-top:15px;
+ border:0;border-radius:9px;
+ background:#d5ad45;color:#171717;
+ font-size:17px;font-weight:bold;
+}
+button:active{opacity:.7}
+.small{color:#aaa;font-size:13px;line-height:1.6}
+#message{color:#f0ca65;margin-top:12px}
+</style>
 </head>
 <body>
+<div class="container">
 
-  <div class="card">
-    <h2>🇰🇭 Khmer AI TTS (LynxTTS)</h2>
+<header>
+<h1>🎙 PHEA VOICE AI</h1>
+<p>Khmer AI Voice Studio</p>
+</header>
 
-    <label>បញ្ចូលអត្ថបទខ្មែរ៖</label>
-    <textarea id="tts-text">សួស្តីបងប្អូនទាំងអស់គ្នា ខ្ញុំជាសំឡេងបញ្ញាសិប្បនិម្មិត AI</textarea>
+<div class="panel">
+<label>ជ្រើសរើសសំឡេង</label>
+<select id="voice">
+<option value="phanin">Phanin — ស្រី | Natural</option>
+<option value="arun">Arun — ប្រុស | Professional</option>
+<option value="bopha">Bopha — ស្រី | Warm</option>
+<option value="bosba">Bosba — ស្រី | Bright</option>
+<option value="davy">Davy — ស្រី | Bright</option>
+<option value="heng">Heng — ប្រុស | Bright</option>
+<option value="kosal">Kosal — ប្រុស | Warm</option>
+<option value="malis">Malis — ស្រី | Warm</option>
+<option value="pich">Pich — ប្រុស | Natural</option>
+<option value="ratanak">Ratanak — ប្រុស | Warm</option>
+<option value="rithy">Rithy — ប្រុស | Bright</option>
+<option value="sovann">Sovann — ប្រុស | Professional</option>
+<option value="sovanna">Sovanna — ស្រី | Professional</option>
+<option value="sreypov">Sreypov — ស្រី | Professional</option>
+<option value="vanna">Vanna — ប្រុស | Professional</option>
+<option value="bora">Bora — ប្រុស | Bright</option>
+<option value="borey">Borey — ប្រុស | Professional</option>
+</select>
 
-    <!-- ជ្រើសរើសសំឡេង AI ខ្មែរ -->
-    <label>ជ្រើសរើសសំឡេង (Voices)៖</label>
-    <select id="voice-name">
-      <option value="km-KH-PiseyNeural">👩 សំឡេងស្រី - ពីសី (Pisey - ផ្អែមរលូន)</option>
-      <option value="km-KH-DaNeural">👨 សំឡេងប្រុស - ដារ៉ា (Da - ច្បាស់ម៉ឺងម៉ាត់)</option>
-    </select>
+<label>បញ្ចូលអត្ថបទភាសាខ្មែរ</label>
+<textarea id="text" placeholder="សូមវាយអត្ថបទដែលអ្នកចង់បង្កើតជាសំឡេង..."></textarea>
 
-    <!-- ជ្រើសរើស Style ល្បឿន -->
-    <label>ល្បឿននិយាយ (Speed)៖</label>
-    <select id="tts-speed">
-      <option value="1">ធម្មតា (Normal - 1x)</option>
-      <option value="0.85">មួយៗ រំសាយចិត្ត (Slow - 0.85x)</option>
-      <option value="1.2">លឿនបែបព័ត៌មាន (Fast - 1.2x)</option>
-    </select>
+<label>ល្បឿនសំឡេង</label>
+<input id="speed" type="range" min="0.5" max="2" step="0.1" value="1">
+<p class="small">ល្បឿន៖ <span id="speedValue">1.0</span>x</p>
 
-    <button id="btn-create">🔊 បង្កើត និងចាក់សំឡេង AI</button>
-    <p class="info" id="status-text">សូមចុចប៊ូតុងដើម្បីបង្កើតសំឡេង</p>
+<button onclick="generateVoice()">បង្កើតសំឡេង</button>
+<p id="message" class="small">
+សូមភ្ជាប់ API Backend ជាមុនសិន ដើម្បីអាចបង្កើតសំឡេងបាន។
+</p>
+</div>
 
-    <!-- កន្លែងចាក់សំឡេង -->
-    <audio id="audio-box" controls playsinline></audio>
-  </div>
+<div class="panel">
+<label>សំឡេងដែលបានបង្កើត</label>
+<audio id="player" controls style="width:100%"></audio>
+<p class="small">នៅពេលភ្ជាប់ API រួច អ្នកអាចស្ដាប់ និងទាញយកសំឡេងនៅទីនេះ។</p>
+</div>
 
-  <script>
-    const btnCreate = document.getElementById('btn-create');
-    const ttsText = document.getElementById('tts-text');
-    const voiceName = document.getElementById('voice-name');
-    const ttsSpeed = document.getElementById('tts-speed');
-    const audioBox = document.getElementById('audio-box');
-    const statusText = document.getElementById('status-text');
+<p class="small" style="text-align:center">
+PHEA VOICE AI © 2026
+</p>
 
-    btnCreate.onclick = function() {
-      const text = ttsText.value.trim();
-      if (!text) {
-        alert('សូមបញ្ចូលអត្ថបទជាមុនសិន!');
-        return;
-      }
+</div>
 
-      btnCreate.disabled = true;
-      statusText.innerText = 'កំពុងទាញយកសំឡេង AI សូមរង់ចាំ...';
+<script>
+const speed = document.getElementById("speed");
+speed.addEventListener("input",()=>{
+ document.getElementById("speedValue").textContent =
+ Number(speed.value).toFixed(1);
+});
 
-      // ប្រើ API សំឡេងខ្មែរផ្ទាល់ ដែលមិនជាប់ Error CORS
-      const soundUrl = `https://api.streamelements.com/kappa/v2/speech?voice=${voiceName.value}&text=${encodeURIComponent(text)}`;
-
-      audioBox.src = soundUrl;
-      audioBox.playbackRate = parseFloat(ttsSpeed.value);
-
-      // បញ្ជាឱ្យ Play ពេលទាញយកបាន
-      audioBox.load();
-      audioBox.play().then(() => {
-        statusText.innerText = 'កំពុងចាក់សំឡេង...';
-      }).catch((e) => {
-        statusText.innerText = 'សំឡេងបង្កើតរួចហើយ! សូមចុចសញ្ញា Play (▶) ខាងក្រោម';
-      });
-
-      audioBox.onended = () => {
-        statusText.innerText = 'ចាក់ចប់រួចរាល់!';
-        btnCreate.disabled = false;
-      };
-
-      btnCreate.disabled = false;
-    };
-  </script>
+function generateVoice(){
+ const text = document.getElementById("text").value.trim();
+ if(!text){
+  document.getElementById("message").textContent =
+  "សូមបញ្ចូលអត្ថបទជាមុនសិន។";
+  return;
+ }
+ document.getElementById("message").textContent =
+ "មុខងារបង្កើតសំឡេងត្រូវការភ្ជាប់ LynxTTS API Backend ជាមុនសិន។";
+}
+</script>
 </body>
 </html>
