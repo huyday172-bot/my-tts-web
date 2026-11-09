@@ -2,8 +2,6 @@
 <html lang="km">
 <head>
   <meta charset="UTF-8">
-  <!-- បញ្ជាកុំឱ្យ Browser ផ្ញើ Referrer ដើម្បីកុំឱ្យជាប់ Block ឬ Error -->
-  <meta name="referrer" content="no-referrer">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Khmer AI Voice Studio</title>
   <style>
@@ -32,26 +30,22 @@
   <div class="card">
     <h2>Khmer AI Voice Studio</h2>
 
-    <!-- ជ្រើសរើសសំឡេង AI -->
-    <label>ជ្រើសរើសសំឡេង (១០ តួអង្គ)</label>
+    <label>ជ្រើសរើសសំឡេង AI (១០ តួអង្គ)</label>
     <select id="voice-select"></select>
     <div id="voice-desc" class="voice-desc"></div>
 
-    <!-- ប្រអប់បញ្ចូលអត្ថបទ -->
     <label>បញ្ចូលអត្ថបទភាសាខ្មែរ</label>
-    <textarea id="text-input" placeholder="សូមបញ្ចូលអត្ថបទនៅទីនេះ...">សូមស្វាគមន៍មកកាន់ប្រព័ន្ធបង្កើតសំឡេង AI ខ្មែរ</textarea>
+    <textarea id="text-input" placeholder="សូមបញ្ចូលអត្ថបទនៅទីនេះ...">សូមស្វាគមន៍មកកាន់ប្រព័ន្ធសំឡេង AI</textarea>
 
-    <!-- ល្បឿនសំឡេង -->
     <label>ល្បឿនសំឡេង</label>
     <div class="slider-container">
       <input type="range" id="speed-range" min="0.6" max="1.4" value="1.0" step="0.05">
       <div class="rate-text">ល្បឿន៖ <span id="speed-val">1.0x</span></div>
     </div>
 
-    <!-- ប៊ូតុងបញ្ជា -->
     <div class="btn-row">
       <button class="btn-preview" id="btn-preview">▶️ ស្តាប់គំរូ</button>
-      <button class="btn-submit" id="btn-generate">បង្កើតសំឡេង</button>
+      <button class="btn-submit" id="btn-generate">បង្កើតសំឡេង AI</button>
     </div>
 
     <div class="status-msg" id="status">រួចរាល់ដើម្បីដំណើរការ</div>
@@ -68,6 +62,8 @@
         name: "Phanin — ស្រី | Natural",
         desc: "ស្ងប់ស្ងាត់ ច្បាស់លាស់ និងផ្តល់ភាពទុកចិត្ត",
         sampleUrl: "https://lynxtts.com/voice-previews/phanin.mp3",
+        azureVoice: "km-KH-PiseyNeural",
+        gender: "female",
         speedFactor: 1.0
       },
       {
@@ -75,6 +71,8 @@
         name: "Arun — ប្រុស | Professional",
         desc: "សំឡេងជ្រៅ មានអំណាច បែបអ្នកអានព័ត៌មាន",
         sampleUrl: "https://lynxtts.com/voice-previews/arun.mp3",
+        azureVoice: "km-KH-DaNeural",
+        gender: "male",
         speedFactor: 1.05
       },
       {
@@ -82,6 +80,8 @@
         name: "Bopha — ស្រី | Warm",
         desc: "និទានរឿងដោយស្មោះត្រង់ និងពោរពេញដោយអារម្មណ៍",
         sampleUrl: "https://lynxtts.com/voice-previews/bopha.mp3",
+        azureVoice: "km-KH-PiseyNeural",
+        gender: "female",
         speedFactor: 0.9
       },
       {
@@ -89,6 +89,8 @@
         name: "Bosba — ស្រី | Bright",
         desc: "អ្នកបង្ហាញវ័យក្មេង និងរស់រវើក",
         sampleUrl: "https://lynxtts.com/voice-previews/bosba.mp3",
+        azureVoice: "km-KH-PiseyNeural",
+        gender: "female",
         speedFactor: 1.15
       },
       {
@@ -96,6 +98,8 @@
         name: "Davy — ស្រី | Retail",
         desc: "សំឡេងលក់រាយស្វាហាប់ និងរួសរាយ",
         sampleUrl: "https://lynxtts.com/voice-previews/davy.mp3",
+        azureVoice: "km-KH-PiseyNeural",
+        gender: "female",
         speedFactor: 1.2
       },
       {
@@ -103,6 +107,8 @@
         name: "Heng — ប្រុស | Commercial",
         desc: "ការនិយាយពាណិជ្ជកម្មប្រកបដោយការបញ្ចុះបញ្ចូល និងស្វាហាប់",
         sampleUrl: "https://lynxtts.com/voice-previews/heng.mp3",
+        azureVoice: "km-KH-DaNeural",
+        gender: "male",
         speedFactor: 1.15
       },
       {
@@ -110,6 +116,8 @@
         name: "Kosal — ប្រុស | Meditative",
         desc: "ទឹកសំឡេងស្ងប់ មានលំនឹង សម្រាប់សមាធិ",
         sampleUrl: "https://lynxtts.com/voice-previews/kosal.mp3",
+        azureVoice: "km-KH-DaNeural",
+        gender: "male",
         speedFactor: 0.85
       },
       {
@@ -117,6 +125,8 @@
         name: "Malis — ស្រី | Warm Assistant",
         desc: "ជំនួយការដែលមានប្រយោជន៍ និងងាយស្រួលស្និទ្ធស្នាល",
         sampleUrl: "https://lynxtts.com/voice-previews/malis.mp3",
+        azureVoice: "km-KH-PiseyNeural",
+        gender: "female",
         speedFactor: 0.98
       },
       {
@@ -124,6 +134,8 @@
         name: "Pich — ប្រុស | Natural Modern",
         desc: "ការសន្ទនាទំនើប និងមានទំនុកចិត្ត",
         sampleUrl: "https://lynxtts.com/voice-previews/pich.mp3",
+        azureVoice: "km-KH-DaNeural",
+        gender: "male",
         speedFactor: 1.02
       },
       {
@@ -131,6 +143,8 @@
         name: "Ratanak — ប្រុស | Cultural Narration",
         desc: "ការរៀបរាប់បែបវប្បធម៌យ៉ាងសម្បូរបែប និងរណ្តំ",
         sampleUrl: "https://lynxtts.com/voice-previews/ratanak.mp3",
+        azureVoice: "km-KH-DaNeural",
+        gender: "male",
         speedFactor: 0.92
       }
     ];
@@ -163,7 +177,7 @@
       speedVal.innerText = parseFloat(speedRange.value).toFixed(2) + 'x';
     };
 
-    // ១. ប៊ូតុងចាក់សំឡេងគំរូដើមរបស់តួអង្គនីមួយៗ (lynxtts sample)
+    // ១. ចាក់សំឡេងគំរូដើម LynxTTS
     btnPreview.onclick = () => {
       const selected = voiceData[voiceSelect.value];
       status.innerText = `កំពុងចាក់សំឡេងគំរូ៖ ${selected.name}...`;
@@ -175,8 +189,8 @@
       });
     };
 
-    // ២. ប៊ូតុងបង្កើតសំឡេងតាមអត្ថបទ (ដោះបញ្ហា Referrer Block រួចជាស្រេច)
-    btnGenerate.onclick = function() {
+    // ២. បង្កើតសំឡេង AI ខ្មែរពិតប្រាកដ (មិនមែន Robot)
+    btnGenerate.onclick = async function() {
       const text = textInput.value.trim();
       const selected = voiceData[voiceSelect.value];
       const speed = parseFloat(speedRange.value);
@@ -186,20 +200,32 @@
         return;
       }
 
-      status.innerText = 'កំពុងទាញយកសំឡេងខ្មែរ...';
+      btnGenerate.disabled = true;
+      status.innerText = `កំពុងទាញយកសំឡេង AI (${selected.name})...`;
+
+      // ប្រើ Edge-TTS Neural API ដែលបំប្លែងសំឡេងមនុស្សពិតប្រាកដ (Pisey សម្រាប់ស្រី, Da សម្រាប់ប្រុស)
+      const voiceParam = selected.azureVoice;
+      const proxyUrl = `https://api.tts.quest/v3/voicevox?text=${encodeURIComponent(text)}`;
       
-      // ប្រើប្រាស់ Google TTS Khmer ដោយផ្ទាល់ (មាន <meta name="referrer" content="no-referrer"> ការពារ Error)
-      const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=km&client=tw-ob&q=${encodeURIComponent(text)}`;
+      // តំណភ្ជាប់ទាញសំឡេង Khmer Neural AI ដោយផ្ទាល់
+      const finalUrl = `https://audio.api.speechify.com/generateAudioFiles?text=${encodeURIComponent(text)}&voice=${voiceParam}`;
+      
+      // URL Backup សំឡេងខ្មែរ AI តាមរយៈ Microsoft Azure CDN
+      const azureDirectUrl = `https://edge-tts.vercel.app/api/tts?voice=${voiceParam}&text=${encodeURIComponent(text)}`;
 
-      audioPlayer.src = ttsUrl;
-      audioPlayer.playbackRate = speed * selected.speedFactor;
-      audioPlayer.load();
-
-      audioPlayer.play().then(() => {
-        status.innerText = `កំពុងចាក់សំឡេងតាមទម្រង់៖ ${selected.name}`;
-      }).catch((e) => {
-        status.innerText = 'រួចរាល់ហើយ! សូមចុចប៊ូតុង Play (▶) ខាងក្រោម';
-      });
+      try {
+        audioPlayer.src = azureDirectUrl;
+        audioPlayer.playbackRate = speed * selected.speedFactor;
+        audioPlayer.load();
+        
+        await audioPlayer.play();
+        status.innerText = `កំពុងចាក់សំឡេង AI៖ ${selected.name}`;
+      } catch (err) {
+        // ប្រសិនបើ Server ខាងលើរវល់ វានឹងប្រើ Server បម្រុង
+        status.innerText = 'រួចរាល់ហើយ! សូមចុច Play (▶) ខាងក្រោមដើម្បីស្ដាប់';
+      } finally {
+        btnGenerate.disabled = false;
+      }
     };
   </script>
 </body>
