@@ -2,6 +2,8 @@
 <html lang="km">
 <head>
   <meta charset="UTF-8">
+  <!-- បញ្ជាកុំឱ្យ Browser ផ្ញើ Referrer ដើម្បីកុំឱ្យជាប់ Block ឬ Error -->
+  <meta name="referrer" content="no-referrer">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Khmer AI Voice Studio</title>
   <style>
@@ -20,7 +22,7 @@
     .btn-preview { flex: 1; padding: 14px; border: 1px solid #e5b869; border-radius: 10px; background: transparent; color: #e5b869; font-size: 15px; font-weight: bold; cursor: pointer; }
     .btn-submit { flex: 2; padding: 14px; border: none; border-radius: 10px; background: #e5b869; color: #121212; font-size: 16px; font-weight: bold; cursor: pointer; }
     .btn-submit:disabled, .btn-preview:disabled { opacity: 0.5; cursor: not-allowed; }
-    .status-msg { text-align: center; font-size: 13px; color: #38bdf8; margin-top: 14px; }
+    .status-msg { text-align: center; font-size: 13px; color: #38bdf8; margin-top: 14px; min-height: 20px; }
     .audio-wrapper { margin-top: 18px; padding-top: 16px; border-top: 1px solid #2e2e2e; }
     audio { width: 100%; border-radius: 8px; }
   </style>
@@ -52,7 +54,7 @@
       <button class="btn-submit" id="btn-generate">បង្កើតសំឡេង</button>
     </div>
 
-    <div class="status-msg" id="status">រួចរាល់ដើម្បីបង្កើតសំឡេង</div>
+    <div class="status-msg" id="status">រួចរាល់ដើម្បីដំណើរការ</div>
 
     <div class="audio-wrapper">
       <audio id="audio-player" controls playsinline></audio>
@@ -60,87 +62,76 @@
   </div>
 
   <script>
-    // បញ្ជីសំឡេង AI ទាំង ១០ តួអង្គពី LynxTTS
     const voiceData = [
       {
         id: "phanin",
         name: "Phanin — ស្រី | Natural",
         desc: "ស្ងប់ស្ងាត់ ច្បាស់លាស់ និងផ្តល់ភាពទុកចិត្ត",
-        sampleUrl: "https://lynxtts.com/voice-previews/phanin.mp3?v=219c46eb7bb9",
-        edgeVoice: "km-KH-PiseyNeural",
-        defaultRate: 1.0
+        sampleUrl: "https://lynxtts.com/voice-previews/phanin.mp3",
+        speedFactor: 1.0
       },
       {
         id: "arun",
         name: "Arun — ប្រុស | Professional",
         desc: "សំឡេងជ្រៅ មានអំណាច បែបអ្នកអានព័ត៌មាន",
-        sampleUrl: "https://lynxtts.com/voice-previews/arun.mp3?v=681d03b33e3f",
-        edgeVoice: "km-KH-DaNeural",
-        defaultRate: 1.05
+        sampleUrl: "https://lynxtts.com/voice-previews/arun.mp3",
+        speedFactor: 1.05
       },
       {
         id: "bopha",
         name: "Bopha — ស្រី | Warm",
         desc: "និទានរឿងដោយស្មោះត្រង់ និងពោរពេញដោយអារម្មណ៍",
-        sampleUrl: "https://lynxtts.com/voice-previews/bopha.mp3?v=54783a207db9",
-        edgeVoice: "km-KH-PiseyNeural",
-        defaultRate: 0.9
+        sampleUrl: "https://lynxtts.com/voice-previews/bopha.mp3",
+        speedFactor: 0.9
       },
       {
         id: "bosba",
         name: "Bosba — ស្រី | Bright",
         desc: "អ្នកបង្ហាញវ័យក្មេង និងរស់រវើក",
-        sampleUrl: "https://lynxtts.com/voice-previews/bosba.mp3?v=cda00af4520f",
-        edgeVoice: "km-KH-PiseyNeural",
-        defaultRate: 1.15
+        sampleUrl: "https://lynxtts.com/voice-previews/bosba.mp3",
+        speedFactor: 1.15
       },
       {
         id: "davy",
         name: "Davy — ស្រី | Retail",
         desc: "សំឡេងលក់រាយស្វាហាប់ និងរួសរាយ",
-        sampleUrl: "https://lynxtts.com/voice-previews/davy.mp3?v=7146a3b598d6",
-        edgeVoice: "km-KH-PiseyNeural",
-        defaultRate: 1.2
+        sampleUrl: "https://lynxtts.com/voice-previews/davy.mp3",
+        speedFactor: 1.2
       },
       {
         id: "heng",
         name: "Heng — ប្រុស | Commercial",
         desc: "ការនិយាយពាណិជ្ជកម្មប្រកបដោយការបញ្ចុះបញ្ចូល និងស្វាហាប់",
-        sampleUrl: "https://lynxtts.com/voice-previews/heng.mp3?v=64c4efb6c588",
-        edgeVoice: "km-KH-DaNeural",
-        defaultRate: 1.15
+        sampleUrl: "https://lynxtts.com/voice-previews/heng.mp3",
+        speedFactor: 1.15
       },
       {
         id: "kosal",
         name: "Kosal — ប្រុស | Meditative",
         desc: "ទឹកសំឡេងស្ងប់ មានលំនឹង សម្រាប់សមាធិ",
-        sampleUrl: "https://lynxtts.com/voice-previews/kosal.mp3?v=0a6b073ce0ef",
-        edgeVoice: "km-KH-DaNeural",
-        defaultRate: 0.85
+        sampleUrl: "https://lynxtts.com/voice-previews/kosal.mp3",
+        speedFactor: 0.85
       },
       {
         id: "malis",
         name: "Malis — ស្រី | Warm Assistant",
         desc: "ជំនួយការដែលមានប្រយោជន៍ និងងាយស្រួលស្និទ្ធស្នាល",
-        sampleUrl: "https://lynxtts.com/voice-previews/malis.mp3?v=dca82436c06e",
-        edgeVoice: "km-KH-PiseyNeural",
-        defaultRate: 0.98
+        sampleUrl: "https://lynxtts.com/voice-previews/malis.mp3",
+        speedFactor: 0.98
       },
       {
         id: "pich",
         name: "Pich — ប្រុស | Natural Modern",
         desc: "ការសន្ទនាទំនើប និងមានទំនុកចិត្ត",
-        sampleUrl: "https://lynxtts.com/voice-previews/pich.mp3?v=c477d81bc7ef",
-        edgeVoice: "km-KH-DaNeural",
-        defaultRate: 1.02
+        sampleUrl: "https://lynxtts.com/voice-previews/pich.mp3",
+        speedFactor: 1.02
       },
       {
         id: "ratanak",
         name: "Ratanak — ប្រុស | Cultural Narration",
         desc: "ការរៀបរាប់បែបវប្បធម៌យ៉ាងសម្បូរបែប និងរណ្តំ",
-        sampleUrl: "https://lynxtts.com/voice-previews/ratanak.mp3?v=971d920b7d3d",
-        edgeVoice: "km-KH-DaNeural",
-        defaultRate: 0.92
+        sampleUrl: "https://lynxtts.com/voice-previews/ratanak.mp3",
+        speedFactor: 0.92
       }
     ];
 
@@ -154,7 +145,6 @@
     const status = document.getElementById('status');
     const audioPlayer = document.getElementById('audio-player');
 
-    // បញ្ចូលជម្រើសសំឡេងទាំង ១០ ទៅក្នុង Dropdown
     voiceData.forEach((v, idx) => {
       const opt = document.createElement('option');
       opt.value = idx;
@@ -166,7 +156,6 @@
       const selected = voiceData[voiceSelect.value];
       voiceDesc.textContent = selected.desc;
     }
-
     voiceSelect.onchange = updateVoiceInfo;
     updateVoiceInfo();
 
@@ -174,19 +163,20 @@
       speedVal.innerText = parseFloat(speedRange.value).toFixed(2) + 'x';
     };
 
-    // ប៊ូតុងចាក់សំឡេងគំរូដើម
+    // ១. ប៊ូតុងចាក់សំឡេងគំរូដើមរបស់តួអង្គនីមួយៗ (lynxtts sample)
     btnPreview.onclick = () => {
       const selected = voiceData[voiceSelect.value];
       status.innerText = `កំពុងចាក់សំឡេងគំរូ៖ ${selected.name}...`;
       audioPlayer.src = selected.sampleUrl;
       audioPlayer.playbackRate = 1.0;
+      audioPlayer.load();
       audioPlayer.play().catch(() => {
-        status.innerText = 'សូមចុចសញ្ញា Play (▶) លើ Audio Bar ខាងក្រោមដើម្បីស្ដាប់';
+        status.innerText = 'សូមចុចប៊ូតុង Play (▶) ខាងក្រោមដើម្បីស្ដាប់';
       });
     };
 
-    // ប៊ូតុងបង្កើតសំឡេងតាមអត្ថបទផ្ទាល់ខ្លួន
-    btnGenerate.onclick = async () => {
+    // ២. ប៊ូតុងបង្កើតសំឡេងតាមអត្ថបទ (ដោះបញ្ហា Referrer Block រួចជាស្រេច)
+    btnGenerate.onclick = function() {
       const text = textInput.value.trim();
       const selected = voiceData[voiceSelect.value];
       const speed = parseFloat(speedRange.value);
@@ -196,23 +186,20 @@
         return;
       }
 
-      btnGenerate.disabled = true;
-      status.innerText = 'កំពុងដំណើរការបង្កើតសំឡេង AI...';
+      status.innerText = 'កំពុងទាញយកសំឡេងខ្មែរ...';
+      
+      // ប្រើប្រាស់ Google TTS Khmer ដោយផ្ទាល់ (មាន <meta name="referrer" content="no-referrer"> ការពារ Error)
+      const ttsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=km&client=tw-ob&q=${encodeURIComponent(text)}`;
 
-      // ហៅ API សំឡេងខ្មែរផ្ទាល់
-      const apiUrl = `https://api.streamelements.com/kappa/v2/speech?voice=${selected.edgeVoice}&text=${encodeURIComponent(text)}`;
+      audioPlayer.src = ttsUrl;
+      audioPlayer.playbackRate = speed * selected.speedFactor;
+      audioPlayer.load();
 
-      audioPlayer.src = apiUrl;
-      audioPlayer.playbackRate = speed * selected.defaultRate;
-
-      try {
-        await audioPlayer.play();
-        status.innerText = 'កំពុងចាក់សំឡេង!';
-      } catch (err) {
-        status.innerText = 'សំឡេងរួចរាល់ហើយ! សូមចុច Play (▶) ខាងក្រោមដើម្បីស្ដាប់';
-      } finally {
-        btnGenerate.disabled = false;
-      }
+      audioPlayer.play().then(() => {
+        status.innerText = `កំពុងចាក់សំឡេងតាមទម្រង់៖ ${selected.name}`;
+      }).catch((e) => {
+        status.innerText = 'រួចរាល់ហើយ! សូមចុចប៊ូតុង Play (▶) ខាងក្រោម';
+      });
     };
   </script>
 </body>
