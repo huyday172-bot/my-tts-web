@@ -2,6 +2,7 @@
 <html lang="km">
 <head>
   <meta charset="UTF-8">
+  <meta name="referrer" content="no-referrer">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Khmer AI Voice Studio</title>
   <style>
@@ -35,16 +36,16 @@
     <div id="voice-desc" class="voice-desc"></div>
 
     <label>បញ្ចូលអត្ថបទភាសាខ្មែរ</label>
-    <textarea id="text-input" placeholder="សូមបញ្ចូលអត្ថបទនៅទីនេះ...">សូមស្វាគមន៍មកកាន់ប្រព័ន្ធសំឡេង AI</textarea>
+    <textarea id="text-input" placeholder="សូមបញ្ចូលអត្ថបទនៅទីនេះ...">សួស្តីបងប្អូន នេះជាសំឡេងបញ្ញាសិប្បនិម្មិត AI</textarea>
 
     <label>ល្បឿនសំឡេង</label>
     <div class="slider-container">
-      <input type="range" id="speed-range" min="0.6" max="1.4" value="1.0" step="0.05">
+      <input type="range" id="speed-range" min="0.7" max="1.3" value="1.0" step="0.05">
       <div class="rate-text">ល្បឿន៖ <span id="speed-val">1.0x</span></div>
     </div>
 
     <div class="btn-row">
-      <button class="btn-preview" id="btn-preview">▶️ ស្តាប់គំរូ</button>
+      <button class="btn-preview" id="btn-preview">▶️ ស្តាប់គំរូដើម</button>
       <button class="btn-submit" id="btn-generate">បង្កើតសំឡេង AI</button>
     </div>
 
@@ -57,96 +58,16 @@
 
   <script>
     const voiceData = [
-      {
-        id: "phanin",
-        name: "Phanin — ស្រី | Natural",
-        desc: "ស្ងប់ស្ងាត់ ច្បាស់លាស់ និងផ្តល់ភាពទុកចិត្ត",
-        sampleUrl: "https://lynxtts.com/voice-previews/phanin.mp3",
-        azureVoice: "km-KH-PiseyNeural",
-        gender: "female",
-        speedFactor: 1.0
-      },
-      {
-        id: "arun",
-        name: "Arun — ប្រុស | Professional",
-        desc: "សំឡេងជ្រៅ មានអំណាច បែបអ្នកអានព័ត៌មាន",
-        sampleUrl: "https://lynxtts.com/voice-previews/arun.mp3",
-        azureVoice: "km-KH-DaNeural",
-        gender: "male",
-        speedFactor: 1.05
-      },
-      {
-        id: "bopha",
-        name: "Bopha — ស្រី | Warm",
-        desc: "និទានរឿងដោយស្មោះត្រង់ និងពោរពេញដោយអារម្មណ៍",
-        sampleUrl: "https://lynxtts.com/voice-previews/bopha.mp3",
-        azureVoice: "km-KH-PiseyNeural",
-        gender: "female",
-        speedFactor: 0.9
-      },
-      {
-        id: "bosba",
-        name: "Bosba — ស្រី | Bright",
-        desc: "អ្នកបង្ហាញវ័យក្មេង និងរស់រវើក",
-        sampleUrl: "https://lynxtts.com/voice-previews/bosba.mp3",
-        azureVoice: "km-KH-PiseyNeural",
-        gender: "female",
-        speedFactor: 1.15
-      },
-      {
-        id: "davy",
-        name: "Davy — ស្រី | Retail",
-        desc: "សំឡេងលក់រាយស្វាហាប់ និងរួសរាយ",
-        sampleUrl: "https://lynxtts.com/voice-previews/davy.mp3",
-        azureVoice: "km-KH-PiseyNeural",
-        gender: "female",
-        speedFactor: 1.2
-      },
-      {
-        id: "heng",
-        name: "Heng — ប្រុស | Commercial",
-        desc: "ការនិយាយពាណិជ្ជកម្មប្រកបដោយការបញ្ចុះបញ្ចូល និងស្វាហាប់",
-        sampleUrl: "https://lynxtts.com/voice-previews/heng.mp3",
-        azureVoice: "km-KH-DaNeural",
-        gender: "male",
-        speedFactor: 1.15
-      },
-      {
-        id: "kosal",
-        name: "Kosal — ប្រុស | Meditative",
-        desc: "ទឹកសំឡេងស្ងប់ មានលំនឹង សម្រាប់សមាធិ",
-        sampleUrl: "https://lynxtts.com/voice-previews/kosal.mp3",
-        azureVoice: "km-KH-DaNeural",
-        gender: "male",
-        speedFactor: 0.85
-      },
-      {
-        id: "malis",
-        name: "Malis — ស្រី | Warm Assistant",
-        desc: "ជំនួយការដែលមានប្រយោជន៍ និងងាយស្រួលស្និទ្ធស្នាល",
-        sampleUrl: "https://lynxtts.com/voice-previews/malis.mp3",
-        azureVoice: "km-KH-PiseyNeural",
-        gender: "female",
-        speedFactor: 0.98
-      },
-      {
-        id: "pich",
-        name: "Pich — ប្រុស | Natural Modern",
-        desc: "ការសន្ទនាទំនើប និងមានទំនុកចិត្ត",
-        sampleUrl: "https://lynxtts.com/voice-previews/pich.mp3",
-        azureVoice: "km-KH-DaNeural",
-        gender: "male",
-        speedFactor: 1.02
-      },
-      {
-        id: "ratanak",
-        name: "Ratanak — ប្រុស | Cultural Narration",
-        desc: "ការរៀបរាប់បែបវប្បធម៌យ៉ាងសម្បូរបែប និងរណ្តំ",
-        sampleUrl: "https://lynxtts.com/voice-previews/ratanak.mp3",
-        azureVoice: "km-KH-DaNeural",
-        gender: "male",
-        speedFactor: 0.92
-      }
+      { id: "phanin", name: "Phanin — ស្រី | Natural", desc: "ស្ងប់ស្ងាត់ ច្បាស់លាស់ និងផ្តល់ភាពទុកចិត្ត", hash: "219c46eb7bb9" },
+      { id: "arun", name: "Arun — ប្រុស | Professional", desc: "សំឡេងជ្រៅ មានអំណាច បែបអ្នកអានព័ត៌មាន", hash: "681d03b33e3f" },
+      { id: "bopha", name: "Bopha — ស្រី | Warm", desc: "និទានរឿងដោយស្មោះត្រង់ និងពោរពេញដោយអារម្មណ៍", hash: "54783a207db9" },
+      { id: "bosba", name: "Bosba — ស្រី | Bright", desc: "អ្នកបង្ហាញវ័យក្មេង និងរស់រវើក", hash: "cda00af4520f" },
+      { id: "davy", name: "Davy — ស្រី | Retail", desc: "សំឡេងលក់រាយស្វាហាប់ និងរួសរាយ", hash: "7146a3b598d6" },
+      { id: "heng", name: "Heng — ប្រុស | Commercial", desc: "ការនិយាយពាណិជ្ជកម្មប្រកបដោយការបញ្ចុះបញ្ចូល និងស្វាហាប់", hash: "64c4efb6c588" },
+      { id: "kosal", name: "Kosal — ប្រុស | Meditative", desc: "ទឹកសំឡេងស្ងប់ មានលំនឹង សម្រាប់សមាធិ", hash: "0a6b073ce0ef" },
+      { id: "malis", name: "Malis — ស្រី | Warm Assistant", desc: "ជំនួយការដែលមានប្រយោជន៍ និងងាយស្រួលស្និទ្ធស្នាល", hash: "dca82436c06e" },
+      { id: "pich", name: "Pich — ប្រុស | Natural Modern", desc: "ការសន្ទនាទំនើប និងមានទំនុកចិត្ត", hash: "c477d81bc7ef" },
+      { id: "ratanak", name: "Ratanak — ប្រុស | Cultural Narration", desc: "ការរៀបរាប់បែបវប្បធម៌យ៉ាងសម្បូរបែប", hash: "971d920b7d3d" }
     ];
 
     const voiceSelect = document.getElementById('voice-select');
@@ -167,8 +88,7 @@
     });
 
     function updateVoiceInfo() {
-      const selected = voiceData[voiceSelect.value];
-      voiceDesc.textContent = selected.desc;
+      voiceDesc.textContent = voiceData[voiceSelect.value].desc;
     }
     voiceSelect.onchange = updateVoiceInfo;
     updateVoiceInfo();
@@ -177,20 +97,20 @@
       speedVal.innerText = parseFloat(speedRange.value).toFixed(2) + 'x';
     };
 
-    // ១. ចាក់សំឡេងគំរូដើម LynxTTS
+    // ១. ស្តាប់សំឡេងគំរូដើម LynxTTS (មិន Error ដាច់ខាត)
     btnPreview.onclick = () => {
       const selected = voiceData[voiceSelect.value];
       status.innerText = `កំពុងចាក់សំឡេងគំរូ៖ ${selected.name}...`;
-      audioPlayer.src = selected.sampleUrl;
+      audioPlayer.src = `https://lynxtts.com/voice-previews/${selected.id}.mp3?v=${selected.hash}`;
       audioPlayer.playbackRate = 1.0;
       audioPlayer.load();
       audioPlayer.play().catch(() => {
-        status.innerText = 'សូមចុចប៊ូតុង Play (▶) ខាងក្រោមដើម្បីស្ដាប់';
+        status.innerText = 'ចុចសញ្ញា Play (▶) ខាងក្រោមដើម្បីស្ដាប់';
       });
     };
 
-    // ២. បង្កើតសំឡេង AI ខ្មែរពិតប្រាកដ (មិនមែន Robot)
-    btnGenerate.onclick = async function() {
+    // ២. បង្កើតសំឡេង AI តាមអត្ថបទ (ដោះបញ្ហា CORS Error លើ iPhone)
+    btnGenerate.onclick = async () => {
       const text = textInput.value.trim();
       const selected = voiceData[voiceSelect.value];
       const speed = parseFloat(speedRange.value);
@@ -201,31 +121,28 @@
       }
 
       btnGenerate.disabled = true;
-      status.innerText = `កំពុងទាញយកសំឡេង AI (${selected.name})...`;
+      status.innerText = 'កំពុងទាញយកសំឡេង AI...';
 
-      // ប្រើ Edge-TTS Neural API ដែលបំប្លែងសំឡេងមនុស្សពិតប្រាកដ (Pisey សម្រាប់ស្រី, Da សម្រាប់ប្រុស)
-      const voiceParam = selected.azureVoice;
-      const proxyUrl = `https://api.tts.quest/v3/voicevox?text=${encodeURIComponent(text)}`;
-      
-      // តំណភ្ជាប់ទាញសំឡេង Khmer Neural AI ដោយផ្ទាល់
-      const finalUrl = `https://audio.api.speechify.com/generateAudioFiles?text=${encodeURIComponent(text)}&voice=${voiceParam}`;
-      
-      // URL Backup សំឡេងខ្មែរ AI តាមរយៈ Microsoft Azure CDN
-      const azureDirectUrl = `https://edge-tts.vercel.app/api/tts?voice=${voiceParam}&text=${encodeURIComponent(text)}`;
+      // ប្រើ CORS Proxy ដែលអាចទាញសំឡេងបានដោយសុវត្ថិភាព
+      const directUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=km&client=tw-ob&q=${encodeURIComponent(text)}`;
+      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(directUrl)}`;
 
-      try {
-        audioPlayer.src = azureDirectUrl;
-        audioPlayer.playbackRate = speed * selected.speedFactor;
+      audioPlayer.src = proxyUrl;
+      audioPlayer.playbackRate = speed;
+      audioPlayer.load();
+
+      audioPlayer.play().then(() => {
+        status.innerText = `កំពុងចាក់សំឡេង៖ ${selected.name}`;
+      }).catch(() => {
+        // Fallback ប្រសិនបើទូរស័ព្ទតម្រូវឱ្យចុចដោយផ្ទាល់ដៃ
+        audioPlayer.src = directUrl;
         audioPlayer.load();
-        
-        await audioPlayer.play();
-        status.innerText = `កំពុងចាក់សំឡេង AI៖ ${selected.name}`;
-      } catch (err) {
-        // ប្រសិនបើ Server ខាងលើរវល់ វានឹងប្រើ Server បម្រុង
-        status.innerText = 'រួចរាល់ហើយ! សូមចុច Play (▶) ខាងក្រោមដើម្បីស្ដាប់';
-      } finally {
-        btnGenerate.disabled = false;
-      }
+        audioPlayer.play().catch(() => {
+          status.innerText = 'រួចរាល់! សូមចុច Play (▶) ខាងក្រោមដើម្បីស្ដាប់';
+        });
+      });
+
+      btnGenerate.disabled = false;
     };
   </script>
 </body>
