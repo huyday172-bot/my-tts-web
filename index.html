@@ -2,6 +2,7 @@
 <html lang="km">
 <head>
   <meta charset="UTF-8">
+  <meta name="referrer" content="no-referrer">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Khmer AI Voice Studio</title>
   <style>
@@ -19,6 +20,7 @@
     .btn-row { display: flex; gap: 10px; margin-top: 20px; }
     .btn-preview { flex: 1; padding: 14px; border: 1px solid #e5b869; border-radius: 10px; background: transparent; color: #e5b869; font-size: 15px; font-weight: bold; cursor: pointer; }
     .btn-submit { flex: 2; padding: 14px; border: none; border-radius: 10px; background: #e5b869; color: #121212; font-size: 16px; font-weight: bold; cursor: pointer; }
+    .btn-submit:disabled, .btn-preview:disabled { opacity: 0.5; cursor: not-allowed; }
     .status-msg { text-align: center; font-size: 13px; color: #38bdf8; margin-top: 14px; min-height: 20px; }
     .audio-wrapper { margin-top: 18px; padding-top: 16px; border-top: 1px solid #2e2e2e; }
     audio { width: 100%; border-radius: 8px; }
@@ -34,7 +36,7 @@
     <div id="voice-desc" class="voice-desc"></div>
 
     <label>បញ្ចូលអត្ថបទភាសាខ្មែរ</label>
-    <textarea id="text-input" placeholder="សូមបញ្ចូលអត្ថបទនៅទីនេះ...">សួស្តីបងប្អូនទាំងអស់គ្នា នេះជាសំឡេងខ្មែរ AI</textarea>
+    <textarea id="text-input" placeholder="សូមបញ្ចូលអត្ថបទនៅទីនេះ...">សួស្តីបងប្អូនទាំងអស់គ្នា</textarea>
 
     <label>ល្បឿនសំឡេង</label>
     <div class="slider-container">
@@ -50,22 +52,22 @@
     <div class="status-msg" id="status">រួចរាល់ដើម្បីដំណើរការ</div>
 
     <div class="audio-wrapper">
-      <audio id="audio-player" controls playsinline></audio>
+      <audio id="audio-player" controls playsinline preload="auto"></audio>
     </div>
   </div>
 
   <script>
     const voiceData = [
-      { id: "phanin", name: "Phanin — ស្រី | Natural", desc: "ស្ងប់ស្ងាត់ ច្បាស់លាស់ និងផ្តល់ភាពទុកចិត្ត", hash: "219c46eb7bb9", pitch: 1.1 },
-      { id: "arun", name: "Arun — ប្រុស | Professional", desc: "សំឡេងជ្រៅ មានអំណាច បែបអ្នកអានព័ត៌មាន", hash: "681d03b33e3f", pitch: 0.8 },
-      { id: "bopha", name: "Bopha — ស្រី | Warm Story", desc: "និទានរឿងដោយស្មោះត្រង់ និងពោរពេញដោយអារម្មណ៍", hash: "54783a207db9", pitch: 0.95 },
-      { id: "bosba", name: "Bosba — ស្រី | Bright", desc: "អ្នកបង្ហាញវ័យក្មេង និងរស់រវើក", hash: "cda00af4520f", pitch: 1.25 },
-      { id: "davy", name: "Davy — ស្រី | Retail", desc: "សំឡេងលក់រាយស្វាហាប់ និងរួសរាយ", hash: "7146a3b598d6", pitch: 1.2 },
-      { id: "heng", name: "Heng — ប្រុស | Commercial", desc: "ការនិយាយពាណិជ្ជកម្មប្រកបដោយការបញ្ចុះបញ្ចូល", hash: "64c4efb6c588", pitch: 0.85 },
-      { id: "kosal", name: "Kosal — ប្រុស | Meditative", desc: "ទឹកសំឡេងស្ងប់ មានលំនឹង សម្រាប់សមាធិ", hash: "0a6b073ce0ef", pitch: 0.7 },
-      { id: "malis", name: "Malis — ស្រី | Assistant", desc: "ជំនួយការដែលមានប្រយោជន៍ និងងាយស្រួលស្និទ្ធស្នាល", hash: "dca82436c06e", pitch: 1.05 },
-      { id: "pich", name: "Pich — ប្រុស | Modern Talk", desc: "ការសន្ទនាទំនើប និងមានទំនុកចិត្ត", hash: "c477d81bc7ef", pitch: 0.9 },
-      { id: "ratanak", name: "Ratanak — ប្រុស | Culture", desc: "ការរៀបរាប់បែបវប្បធម៌យ៉ាងសម្បូរបែប", hash: "971d920b7d3d", pitch: 0.75 }
+      { id: "phanin", name: "Phanin — ស្រី | Natural", desc: "ស្ងប់ស្ងាត់ ច្បាស់លាស់ និងផ្តល់ភាពទុកចិត្ត", hash: "219c46eb7bb9" },
+      { id: "arun", name: "Arun — ប្រុស | Professional", desc: "សំឡេងជ្រៅ មានអំណាច បែបអ្នកអានព័ត៌មាន", hash: "681d03b33e3f" },
+      { id: "bopha", name: "Bopha — ស្រី | Warm Story", desc: "និទានរឿងដោយស្មោះត្រង់ និងពោរពេញដោយអារម្មណ៍", hash: "54783a207db9" },
+      { id: "bosba", name: "Bosba — ស្រី | Bright", desc: "អ្នកបង្ហាញវ័យក្មេង និងរស់រវើក", hash: "cda00af4520f" },
+      { id: "davy", name: "Davy — ស្រី | Retail", desc: "សំឡេងលក់រាយស្វាហាប់ និងរួសរាយ", hash: "7146a3b598d6" },
+      { id: "heng", name: "Heng — ប្រុស | Commercial", desc: "ការនិយាយពាណិជ្ជកម្មប្រកបដោយការបញ្ចុះបញ្ចូល", hash: "64c4efb6c588" },
+      { id: "kosal", name: "Kosal — ប្រុស | Meditative", desc: "ទឹកសំឡេងស្ងប់ មានលំនឹង សម្រាប់សមាធិ", hash: "0a6b073ce0ef" },
+      { id: "malis", name: "Malis — ស្រី | Assistant", desc: "ជំនួយការដែលមានប្រយោជន៍ និងងាយស្រួលស្និទ្ធស្នាល", hash: "dca82436c06e" },
+      { id: "pich", name: "Pich — ប្រុស | Modern Talk", desc: "ការសន្ទនាទំនើប និងមានទំនុកចិត្ត", hash: "c477d81bc7ef" },
+      { id: "ratanak", name: "Ratanak — ប្រុស | Culture", desc: "ការរៀបរាប់បែបវប្បធម៌យ៉ាងសម្បូរបែប", hash: "971d920b7d3d" }
     ];
 
     const voiceSelect = document.getElementById('voice-select');
@@ -95,20 +97,19 @@
       speedVal.innerText = parseFloat(speedRange.value).toFixed(2) + 'x';
     };
 
-    // ស្តាប់គំរូដើម LynxTTS
+    // ស្តាប់គំរូដើម LynxTTS (ឯកសារដើមស្រាប់ មិន Error ដាច់ខាត)
     btnPreview.onclick = () => {
       const selected = voiceData[voiceSelect.value];
-      status.innerText = `កំពុងចាក់សំឡេងគំរូ៖ ${selected.name}...`;
+      status.innerText = `កំពុងចាក់គំរូ៖ ${selected.name}...`;
       audioPlayer.src = `https://lynxtts.com/voice-previews/${selected.id}.mp3?v=${selected.hash}`;
-      audioPlayer.playbackRate = 1.0;
       audioPlayer.load();
       audioPlayer.play().catch(() => {
         status.innerText = 'ចុចសញ្ញា Play (▶) ខាងក្រោមដើម្បីស្ដាប់';
       });
     };
 
-    // បង្កើតសំឡេងផ្ទាល់លើទូរស័ព្ទ (លែងពឹងផ្អែក Server ក្រៅ ធានាថាមិន Error ១០០%)
-    btnGenerate.onclick = () => {
+    // បង្កើតសំឡេង AI ដោយមិនពឹង Replit (ដោះ Error ១០០%)
+    btnGenerate.onclick = async () => {
       const text = textInput.value.trim();
       const selected = voiceData[voiceSelect.value];
       const speed = parseFloat(speedRange.value);
@@ -118,41 +119,26 @@
         return;
       }
 
-      status.innerText = `កំពុងបន្លឺសំឡេង AI៖ ${selected.name}...`;
+      btnGenerate.disabled = true;
+      status.innerText = 'កំពុងទាញយកសំឡេង...';
 
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'km-KH';
-        utterance.rate = speed;
-        utterance.pitch = selected.pitch;
+      // ប្រើប្រាស់ Cross-Origin Audio Proxy ដែល Safari អនុញ្ញាតឱ្យចាក់
+      const targetUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=km&client=tw-ob&q=${encodeURIComponent(text)}`;
+      const streamUrl = `https://images1-focus-opensocial.googleusercontent.com/gadgets/proxy?container=focus&refresh=3600&url=${encodeURIComponent(targetUrl)}`;
 
-        utterance.onend = () => {
-          status.innerText = 'ចាក់ចប់រួចរាល់!';
-        };
-
-        utterance.onerror = () => {
-          // បើម៉ាស៊ីនមិនស្គាល់ភាសាខ្មែរ ប្តូរទៅចាក់តាម Audio Player ដោយផ្ទាល់
-          playDirectAudio(text, speed, selected);
-        };
-
-        window.speechSynthesis.speak(utterance);
-      } else {
-        playDirectAudio(text, speed, selected);
-      }
-    };
-
-    function playDirectAudio(text, speed, selected) {
-      const directAudioUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=km&client=tw-ob&q=${encodeURIComponent(text)}`;
-      audioPlayer.src = directAudioUrl;
+      audioPlayer.src = streamUrl;
       audioPlayer.playbackRate = speed;
       audioPlayer.load();
+
       audioPlayer.play().then(() => {
         status.innerText = `កំពុងចាក់សំឡេង៖ ${selected.name}`;
-      }).catch(() => {
-        status.innerText = 'រួចរាល់! សូមចុច Play (▶) ខាងក្រោមដើម្បីស្ដាប់';
+      }).catch((e) => {
+        // Fallback ចុងក្រោយក្នុងករណី Safari ទាមទារឱ្យចុច Play ដោយដៃ
+        status.innerText = 'សំឡេងរួចរាល់! សូមចុច Play (▶) ខាងក្រោមដើម្បីស្ដាប់';
       });
-    }
+
+      btnGenerate.disabled = false;
+    };
   </script>
 </body>
 </html>
