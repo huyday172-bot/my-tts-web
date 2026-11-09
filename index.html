@@ -31,12 +31,12 @@
   <div class="card">
     <h2>Khmer AI Voice Studio</h2>
 
-    <label>ជ្រើសរើសសំឡេង AI (១០ តួអង្គ)</label>
+    <label>ជ្រើសរើសសំឡេង AI</label>
     <select id="voice-select"></select>
     <div id="voice-desc" class="voice-desc"></div>
 
     <label>បញ្ចូលអត្ថបទភាសាខ្មែរ</label>
-    <textarea id="text-input" placeholder="សូមបញ្ចូលអត្ថបទនៅទីនេះ...">សួស្តីបងប្អូន នេះជាសំឡេងបញ្ញាសិប្បនិម្មិត AI</textarea>
+    <textarea id="text-input" placeholder="សូមបញ្ចូលអត្ថបទនៅទីនេះ...">សួស្តីបងប្អូន នេះជាសំឡេងបញ្ញាសិប្បនិម្មិត AI ខ្មែរពិតប្រាកដ</textarea>
 
     <label>ល្បឿនសំឡេង</label>
     <div class="slider-container">
@@ -58,16 +58,16 @@
 
   <script>
     const voiceData = [
-      { id: "phanin", name: "Phanin — ស្រី | Natural", desc: "ស្ងប់ស្ងាត់ ច្បាស់លាស់ និងផ្តល់ភាពទុកចិត្ត", hash: "219c46eb7bb9" },
-      { id: "arun", name: "Arun — ប្រុស | Professional", desc: "សំឡេងជ្រៅ មានអំណាច បែបអ្នកអានព័ត៌មាន", hash: "681d03b33e3f" },
-      { id: "bopha", name: "Bopha — ស្រី | Warm", desc: "និទានរឿងដោយស្មោះត្រង់ និងពោរពេញដោយអារម្មណ៍", hash: "54783a207db9" },
-      { id: "bosba", name: "Bosba — ស្រី | Bright", desc: "អ្នកបង្ហាញវ័យក្មេង និងរស់រវើក", hash: "cda00af4520f" },
-      { id: "davy", name: "Davy — ស្រី | Retail", desc: "សំឡេងលក់រាយស្វាហាប់ និងរួសរាយ", hash: "7146a3b598d6" },
-      { id: "heng", name: "Heng — ប្រុស | Commercial", desc: "ការនិយាយពាណិជ្ជកម្មប្រកបដោយការបញ្ចុះបញ្ចូល និងស្វាហាប់", hash: "64c4efb6c588" },
-      { id: "kosal", name: "Kosal — ប្រុស | Meditative", desc: "ទឹកសំឡេងស្ងប់ មានលំនឹង សម្រាប់សមាធិ", hash: "0a6b073ce0ef" },
-      { id: "malis", name: "Malis — ស្រី | Warm Assistant", desc: "ជំនួយការដែលមានប្រយោជន៍ និងងាយស្រួលស្និទ្ធស្នាល", hash: "dca82436c06e" },
-      { id: "pich", name: "Pich — ប្រុស | Natural Modern", desc: "ការសន្ទនាទំនើប និងមានទំនុកចិត្ត", hash: "c477d81bc7ef" },
-      { id: "ratanak", name: "Ratanak — ប្រុស | Cultural Narration", desc: "ការរៀបរាប់បែបវប្បធម៌យ៉ាងសម្បូរបែប", hash: "971d920b7d3d" }
+      { id: "phanin", name: "Phanin — ស្រី | Natural", desc: "ស្ងប់ស្ងាត់ ច្បាស់លាស់ និងផ្តល់ភាពទុកចិត្ត", hash: "219c46eb7bb9", voiceCode: "km-KH-PiseyNeural" },
+      { id: "arun", name: "Arun — ប្រុស | Professional", desc: "សំឡេងជ្រៅ មានអំណាច បែបអ្នកអានព័ត៌មាន", hash: "681d03b33e3f", voiceCode: "km-KH-DaNeural" },
+      { id: "bopha", name: "Bopha — ស្រី | Warm", desc: "និទានរឿងដោយស្មោះត្រង់ និងពោរពេញដោយអារម្មណ៍", hash: "54783a207db9", voiceCode: "km-KH-PiseyNeural" },
+      { id: "bosba", name: "Bosba — ស្រី | Bright", desc: "អ្នកបង្ហាញវ័យក្មេង និងរស់រវើក", hash: "cda00af4520f", voiceCode: "km-KH-PiseyNeural" },
+      { id: "davy", name: "Davy — ស្រី | Retail", desc: "សំឡេងលក់រាយស្វាហាប់ និងរួសរាយ", hash: "7146a3b598d6", voiceCode: "km-KH-PiseyNeural" },
+      { id: "heng", name: "Heng — ប្រុស | Commercial", desc: "ការនិយាយពាណិជ្ជកម្មប្រកបដោយការបញ្ចុះបញ្ចូល និងស្វាហាប់", hash: "64c4efb6c588", voiceCode: "km-KH-DaNeural" },
+      { id: "kosal", name: "Kosal — ប្រុស | Meditative", desc: "ទឹកសំឡេងស្ងប់ មានលំនឹង សម្រាប់សមាធិ", hash: "0a6b073ce0ef", voiceCode: "km-KH-DaNeural" },
+      { id: "malis", name: "Malis — ស្រី | Warm Assistant", desc: "ជំនួយការដែលមានប្រយោជន៍ និងងាយស្រួលស្និទ្ធស្នាល", hash: "dca82436c06e", voiceCode: "km-KH-PiseyNeural" },
+      { id: "pich", name: "Pich — ប្រុស | Natural Modern", desc: "ការសន្ទនាទំនើប និងមានទំនុកចិត្ត", hash: "c477d81bc7ef", voiceCode: "km-KH-DaNeural" },
+      { id: "ratanak", name: "Ratanak — ប្រុស | Cultural Narration", desc: "ការរៀបរាប់បែបវប្បធម៌យ៉ាងសម្បូរបែប", hash: "971d920b7d3d", voiceCode: "km-KH-DaNeural" }
     ];
 
     const voiceSelect = document.getElementById('voice-select');
@@ -97,7 +97,7 @@
       speedVal.innerText = parseFloat(speedRange.value).toFixed(2) + 'x';
     };
 
-    // ១. ស្តាប់សំឡេងគំរូដើម LynxTTS (មិន Error ដាច់ខាត)
+    // ១. ចាក់សំឡេងគំរូដើម LynxTTS
     btnPreview.onclick = () => {
       const selected = voiceData[voiceSelect.value];
       status.innerText = `កំពុងចាក់សំឡេងគំរូ៖ ${selected.name}...`;
@@ -109,7 +109,7 @@
       });
     };
 
-    // ២. បង្កើតសំឡេង AI តាមអត្ថបទ (ដោះបញ្ហា CORS Error លើ iPhone)
+    // ២. បង្កើតសំឡេង Neural AI ពិតប្រាកដ (លែងប្រើ Google Translate Robot)
     btnGenerate.onclick = async () => {
       const text = textInput.value.trim();
       const selected = voiceData[voiceSelect.value];
@@ -121,25 +121,22 @@
       }
 
       btnGenerate.disabled = true;
-      status.innerText = 'កំពុងទាញយកសំឡេង AI...';
+      status.innerText = 'កំពុងទាញយកសំឡេង AI ធម្មជាតិ...';
 
-      // ប្រើ CORS Proxy ដែលអាចទាញសំឡេងបានដោយសុវត្ថិភាព
-      const directUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=km&client=tw-ob&q=${encodeURIComponent(text)}`;
-      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(directUrl)}`;
+      // គណនាល្បឿនសម្រាប់ Edge-TTS (ឧទាហរណ៍៖ +10% ឬ -10%)
+      const ratePercent = Math.round((speed - 1) * 100);
+      const rateStr = (ratePercent >= 0 ? `+${ratePercent}%` : `${ratePercent}%`);
 
-      audioPlayer.src = proxyUrl;
-      audioPlayer.playbackRate = speed;
+      // ហៅ Edge-TTS Proxy Endpoint ដែលបង្កើតសំឡេង Neural ខ្មែរឥតគិតថ្លៃ
+      const ttsApiUrl = `https://tts.cykerway.top/tts?voice=${selected.voiceCode}&text=${encodeURIComponent(text)}&rate=${encodeURIComponent(rateStr)}`;
+
+      audioPlayer.src = ttsApiUrl;
       audioPlayer.load();
 
       audioPlayer.play().then(() => {
-        status.innerText = `កំពុងចាក់សំឡេង៖ ${selected.name}`;
+        status.innerText = `កំពុងចាក់សំឡេង AI៖ ${selected.name}`;
       }).catch(() => {
-        // Fallback ប្រសិនបើទូរស័ព្ទតម្រូវឱ្យចុចដោយផ្ទាល់ដៃ
-        audioPlayer.src = directUrl;
-        audioPlayer.load();
-        audioPlayer.play().catch(() => {
-          status.innerText = 'រួចរាល់! សូមចុច Play (▶) ខាងក្រោមដើម្បីស្ដាប់';
-        });
+        status.innerText = 'សំឡេងបង្កើតរួចរាល់! សូមចុច Play (▶) ដើម្បីស្ដាប់';
       });
 
       btnGenerate.disabled = false;
